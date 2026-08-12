@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "title": "SemPlan: Benchmarking Structured Semantic Planning for LLM-Based Queries over Enterprise Data",
+  "author": "Bruno Santos Teixeira",
+  "repository": "https://github.com/Brunoost1/semplan-benchmark",
+  "zenodo_doi": "10.5281/zenodo.21904872",
+  "benchmark_version": "1.0.0-rc.2",
+  "benchmark_sha256": "60fe39c51a71637afd2a88f9fd44c3eee620a6e5467591d3c36a0a39a16792ed",
+  "scientific_results_sha256": "5f06bc8bad81a8c0c151d4890a34432bb0166e73331371fb5c7fb8536aefb816",
+  "public_artifacts": [
+    "paper/README.md",
+    "results/*.csv",
+    "results/SemPlan_results_v1.0.zip",
+    "release/REPRODUCIBILITY.md",
+    "release/CHECKSUMS.sha256"
+  ],
+  "excluded_from_public_repository": [
+    "private implementation specifications",
+    "internal development/authoring instructions",
+    "credentials and local environment files",
+    "provider caches",
+    "raw provider response payloads",
+    "machine-specific working artifacts"
+  ],
+  "licenses": {
+    "semplan_code": "Apache-2.0",
+    "semplan_dataset_and_documentation": "CC-BY-4.0",
+    "third_party_files": "retain original licenses"
+  }
+}

@@ -1,0 +1,5 @@
+approach,execution_design,mode,model_id,model_provider,prompt_id,prompt_sha256,repetitions
+A1,f7-primary-plus-stability-v1,synchronous,gpt-5.6-luna,openai,direct_sql_a1_v1,sha256:257c15c136c0a32108e41731a5d8b50c62c96b16e1ccdc2b973df92c6fad27d7,3
+A2,f7-primary-plus-stability-v1,synchronous,gpt-5.6-luna,openai,tool_agent_a2_v1,sha256:a50283334d378454192bd40d17a0747a225d3971a6203d8c9cc4443017293a05,3
+A3,f7-primary-plus-stability-v1,synchronous,gpt-5.6-luna,openai,semantic_request_a3_v1,sha256:7a5cb95ccd3efb42feb4bedf2177250cdb2ee866758e8fbf93e90c85abb8fc95,3
+A4,f7-primary-plus-stability-v1,synchronous,gpt-5.6-luna,openai,semantic_request_a4_v1,sha256:582d25398d5311e22b64d6472edb4e092dc85b095cc214acf86a1c37431cab51,3

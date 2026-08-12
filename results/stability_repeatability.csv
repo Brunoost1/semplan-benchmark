@@ -1,0 +1,5 @@
+answer_correct_repeatability_rate,approach,max_additional_runs_per_case,min_additional_runs_per_case,stability_cases,stability_records
+0.980000,A1,2,2,150,300
+0.920000,A2,2,2,150,300
+0.986667,A3,2,2,150,300
+0.980000,A4,2,2,150,300

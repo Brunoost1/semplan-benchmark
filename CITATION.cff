@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use SemPlan Benchmark or its reported artifacts, please cite this work."
+title: "SemPlan: Benchmarking Structured Semantic Planning for LLM-Based Queries over Enterprise Data"
+type: software
+authors:
+  - family-names: Teixeira
+    given-names: Bruno Santos
+    orcid: "https://orcid.org/0009-0007-3860-7114"
+version: "1.0.0-rc.2"
+date-released: "2026-08-12"
+repository-code: "https://github.com/Brunoost1/semplan-benchmark"
+doi: "10.5281/zenodo.21904872"
+license: Apache-2.0
+keywords:
+  - text-to-SQL
+  - semantic parsing
+  - benchmark
+  - enterprise analytics
+  - structured outputs
+  - reproducibility

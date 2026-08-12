@@ -31,8 +31,8 @@ Latency is not used as primary comparative evidence because the frozen runner re
 
 This repository snapshot intentionally contains only material suitable for public scientific distribution:
 
-- `paper/` — public preprint PDF and its LaTeX/arXiv source;
-- `results/` — frozen derived result tables used by the manuscript;
+- `paper/` — public preprint pointer and DOI;
+- `results/` — frozen derived CSV result tables used by the manuscript, plus a convenience ZIP bundle;
 - `release/` — public release metadata, reproducibility notes, and checksums.
 
 Private implementation specifications, internal authoring/development instructions, local credentials, provider caches, raw provider responses, and other non-public working materials are intentionally excluded from this repository.
