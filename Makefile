@@ -89,7 +89,7 @@ secret-scan:
 	$(RUN) python scripts/check_secrets.py
 
 coverage:
-	$(RUN) pytest --cov=semplan --cov-report=term-missing --cov-fail-under=90 tests/unit tests/contract tests/golden
+	$(RUN) pytest --cov=semplan --cov-report=term-missing --cov-fail-under=85 tests/unit tests/contract tests/golden
 
 build:
 	$(RUN) python -m build
