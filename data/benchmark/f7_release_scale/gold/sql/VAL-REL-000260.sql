@@ -1,0 +1,1 @@
+SELECT COUNT(DISTINCT analytics_order_facts.order_id) AS order_count FROM analytics_order_facts WHERE analytics_order_facts.year = 2024 AND analytics_order_facts.month = 6 AND analytics_order_facts.region = 'South' AND analytics_order_facts.channel = 'online' AND analytics_order_facts.customer_segment = 'mid_market' AND analytics_order_facts.category = 'category_04' LIMIT 1000

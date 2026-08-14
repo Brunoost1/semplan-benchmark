@@ -1,0 +1,1 @@
+SELECT COUNT(DISTINCT analytics_order_facts.active_customer_id) AS active_customer_count FROM analytics_order_facts WHERE analytics_order_facts.year = 2023 AND analytics_order_facts.month = 3 AND analytics_order_facts.region = 'West' AND analytics_order_facts.channel = 'retail' AND analytics_order_facts.customer_segment = 'small_business' LIMIT 1000

@@ -1,0 +1,1 @@
+SELECT analytics_order_facts.region, COUNT(DISTINCT analytics_order_facts.order_id) AS order_count FROM analytics_order_facts WHERE analytics_order_facts.year IN (2025, 2026) AND analytics_order_facts.channel = 'marketplace' AND analytics_order_facts.customer_segment = 'enterprise' GROUP BY analytics_order_facts.region ORDER BY analytics_order_facts.region ASC LIMIT 24

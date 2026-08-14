@@ -1,0 +1,1 @@
+SELECT SUM(analytics_order_facts.gross_revenue) AS gross_revenue FROM analytics_order_facts WHERE analytics_order_facts.year = 2022 AND analytics_order_facts.month = 6 AND analytics_order_facts.region = 'South' AND analytics_order_facts.channel = 'online' AND analytics_order_facts.customer_segment = 'mid_market' AND analytics_order_facts.payment_method = 'debit' LIMIT 1000

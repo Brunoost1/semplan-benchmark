@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="320" viewBox="0 0 760 320" role="img" aria-label="Answer correctness with paired-analysis context">
+<title>Answer correctness with paired-analysis context</title>
+<rect width="100%" height="100%" fill="white"/>
+<text x="24" y="28" font-size="16" font-family="Arial">Answer correctness with paired-analysis context</text>
+<rect x="56" y="224" width="100" height="40" fill="#4d4d4d"/>
+<text x="106.0" y="290" text-anchor="middle">A1</text>
+<text x="106.0" y="216" text-anchor="middle">22.2%</text>
+<rect x="204" y="224" width="100" height="40" fill="#4d4d4d"/>
+<text x="254.0" y="290" text-anchor="middle">A2</text>
+<text x="254.0" y="216" text-anchor="middle">22.6%</text>
+<rect x="352" y="218" width="100" height="46" fill="#4d4d4d"/>
+<text x="402.0" y="290" text-anchor="middle">A3</text>
+<text x="402.0" y="210" text-anchor="middle">25.7%</text>
+<rect x="500" y="221" width="100" height="43" fill="#4d4d4d"/>
+<text x="550.0" y="290" text-anchor="middle">A4</text>
+<text x="550.0" y="213" text-anchor="middle">24.2%</text>
+</svg>

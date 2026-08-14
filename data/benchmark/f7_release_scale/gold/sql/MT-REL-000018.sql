@@ -1,0 +1,1 @@
+SELECT analytics_order_facts.region, SUM(analytics_order_facts.net_revenue) AS net_revenue FROM analytics_order_facts WHERE analytics_order_facts.year = 2025 AND analytics_order_facts.quarter = 1 GROUP BY analytics_order_facts.region ORDER BY net_revenue DESC, analytics_order_facts.region ASC LIMIT 10

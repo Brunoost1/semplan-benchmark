@@ -1,0 +1,164 @@
+{
+  "$defs": {
+    "CostEstimate": {
+      "additionalProperties": false,
+      "properties": {
+        "currency": {
+          "const": "USD",
+          "default": "USD",
+          "title": "Currency",
+          "type": "string"
+        },
+        "estimated_usd": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Estimated Usd"
+        }
+      },
+      "required": [
+        "estimated_usd"
+      ],
+      "title": "CostEstimate",
+      "type": "object"
+    },
+    "ProviderFinishStatus": {
+      "enum": [
+        "STOP",
+        "REFUSAL",
+        "INCOMPLETE",
+        "ERROR"
+      ],
+      "title": "ProviderFinishStatus",
+      "type": "string"
+    },
+    "ProviderUsage": {
+      "additionalProperties": false,
+      "properties": {
+        "cached_input_tokens": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Cached Input Tokens",
+          "type": "integer"
+        },
+        "input_tokens": {
+          "minimum": 0,
+          "title": "Input Tokens",
+          "type": "integer"
+        },
+        "output_tokens": {
+          "minimum": 0,
+          "title": "Output Tokens",
+          "type": "integer"
+        },
+        "reasoning_tokens": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Reasoning Tokens",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "input_tokens",
+        "output_tokens"
+      ],
+      "title": "ProviderUsage",
+      "type": "object"
+    }
+  },
+  "$id": "https://semplan-benchmark.local/schemas/provider_response.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attempts": {
+      "minimum": 1,
+      "title": "Attempts",
+      "type": "integer"
+    },
+    "cost": {
+      "$ref": "#/$defs/CostEstimate"
+    },
+    "finish_status": {
+      "$ref": "#/$defs/ProviderFinishStatus"
+    },
+    "model": {
+      "minLength": 1,
+      "title": "Model",
+      "type": "string"
+    },
+    "parsed_payload": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Parsed Payload"
+    },
+    "provider": {
+      "minLength": 1,
+      "title": "Provider",
+      "type": "string"
+    },
+    "raw_payload": {
+      "additionalProperties": true,
+      "title": "Raw Payload",
+      "type": "object"
+    },
+    "refusal": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Refusal"
+    },
+    "response_id": {
+      "minLength": 1,
+      "title": "Response Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "timing_ms": {
+      "minimum": 0,
+      "title": "Timing Ms",
+      "type": "integer"
+    },
+    "usage": {
+      "$ref": "#/$defs/ProviderUsage"
+    }
+  },
+  "required": [
+    "schema_version",
+    "provider",
+    "model",
+    "response_id",
+    "finish_status",
+    "raw_payload",
+    "usage",
+    "cost",
+    "timing_ms",
+    "attempts"
+  ],
+  "title": "ProviderResponse",
+  "type": "object"
+}

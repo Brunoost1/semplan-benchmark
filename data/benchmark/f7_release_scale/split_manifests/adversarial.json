@@ -1,0 +1,1 @@
+{"benchmark_version":"1.0.0-rc.2","case_count":200,"case_file":"cases/adversarial.jsonl","case_file_sha256":"07e37e3aa82ce15ec6ee6eea5132ea979824a329acf847418c8a96a07ba25e56","hidden_sealed":false,"schema_version":"1.0","split":"adversarial"}

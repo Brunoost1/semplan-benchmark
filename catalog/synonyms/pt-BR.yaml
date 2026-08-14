@@ -1,0 +1,19 @@
+schema_version: "1.0"
+locale: pt-BR
+synonyms:
+  vendas: net_revenue
+  receita: net_revenue
+  receita bruta: gross_revenue
+  margem: contribution_margin
+  percentual de margem: contribution_margin_pct
+  pedidos: order_count
+  ticket medio: average_order_value
+  despesas: expense_amount
+  gasto: expense_amount
+  orcamento: budget_amount
+  variacao: budget_variance
+  contratos: active_contract_value
+  clientes ativos: active_customer_count
+  regiao: region
+  segmento: customer_segment
+  metodo de pagamento: payment_method

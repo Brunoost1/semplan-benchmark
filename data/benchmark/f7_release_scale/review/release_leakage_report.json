@@ -1,0 +1,1 @@
+{"case_count":1800,"checks":["semantic_fingerprint_cross_split","template_family_cross_split","hidden_case_ids_absent_from_prompts_and_fixtures","pilot_case_id_utterance_and_fingerprint_reuse"],"findings":[],"pilot_artifact":"data/benchmark/f7_primary","pilot_artifact_preserved":true,"schema_version":"1.0","status":"passed"}

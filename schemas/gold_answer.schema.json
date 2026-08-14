@@ -1,0 +1,272 @@
+{
+  "$defs": {
+    "BenchmarkReview": {
+      "additionalProperties": false,
+      "properties": {
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "reviewed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reviewed At"
+        },
+        "reviewer": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reviewer"
+        },
+        "status": {
+          "$ref": "#/$defs/ReviewStatus"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "BenchmarkReview",
+      "type": "object"
+    },
+    "ExpectedPolicy": {
+      "enum": [
+        "ALLOW",
+        "CLARIFY",
+        "OUT_OF_SCOPE",
+        "POLICY_VIOLATION"
+      ],
+      "title": "ExpectedPolicy",
+      "type": "string"
+    },
+    "OrderingSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "type": "string"
+          },
+          "title": "Fields",
+          "type": "array"
+        },
+        "ordered": {
+          "title": "Ordered",
+          "type": "boolean"
+        },
+        "tie_policy": {
+          "minLength": 1,
+          "title": "Tie Policy",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ordered",
+        "tie_policy"
+      ],
+      "title": "OrderingSpec",
+      "type": "object"
+    },
+    "ReviewStatus": {
+      "enum": [
+        "pending_author_review",
+        "approved",
+        "rejected"
+      ],
+      "title": "ReviewStatus",
+      "type": "string"
+    },
+    "ToleranceSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "absolute": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Absolute"
+        },
+        "relative": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Relative"
+        }
+      },
+      "required": [
+        "absolute",
+        "relative"
+      ],
+      "title": "ToleranceSpec",
+      "type": "object"
+    }
+  },
+  "$id": "https://semplan-benchmark.local/schemas/gold_answer.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "assumptions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Assumptions",
+      "type": "array"
+    },
+    "case_id": {
+      "pattern": "^(DEV|VAL|TST-PUB|TST-HID|MT|ADV)-(SMK|REL)-[0-9]{6}$",
+      "title": "Case Id",
+      "type": "string"
+    },
+    "dataset_manifest_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Dataset Manifest Hash",
+      "type": "string"
+    },
+    "dataset_version": {
+      "minLength": 1,
+      "title": "Dataset Version",
+      "type": "string"
+    },
+    "execution_timestamp_utc": {
+      "format": "date-time",
+      "title": "Execution Timestamp Utc",
+      "type": "string"
+    },
+    "ordering": {
+      "$ref": "#/$defs/OrderingSpec"
+    },
+    "outcome": {
+      "$ref": "#/$defs/ExpectedPolicy"
+    },
+    "plan_hash": {
+      "anyOf": [
+        {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Plan Hash"
+    },
+    "query_hash": {
+      "anyOf": [
+        {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Query Hash"
+    },
+    "review": {
+      "$ref": "#/$defs/BenchmarkReview"
+    },
+    "rows": {
+      "items": {
+        "additionalProperties": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "type": "object"
+      },
+      "title": "Rows",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "tolerances": {
+      "patternProperties": {
+        "^[a-z][a-z0-9_]*$": {
+          "$ref": "#/$defs/ToleranceSpec"
+        }
+      },
+      "title": "Tolerances",
+      "type": "object"
+    },
+    "units": {
+      "patternProperties": {
+        "^[a-z][a-z0-9_]*$": {
+          "type": "string"
+        }
+      },
+      "title": "Units",
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "case_id",
+    "outcome",
+    "dataset_version",
+    "dataset_manifest_hash",
+    "execution_timestamp_utc",
+    "rows",
+    "units",
+    "ordering",
+    "tolerances",
+    "review"
+  ],
+  "title": "GoldAnswer",
+  "type": "object"
+}

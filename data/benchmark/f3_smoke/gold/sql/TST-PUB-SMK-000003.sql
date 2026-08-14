@@ -1,0 +1,1 @@
+SELECT region, SUM(active_contract_value) AS active_contract_value FROM analytics_contract_facts WHERE end_date BETWEEN '2026-08-01' AND '2026-09-30' AND status = 'active' GROUP BY region ORDER BY active_contract_value DESC, region ASC

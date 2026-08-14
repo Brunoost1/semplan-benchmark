@@ -1,0 +1,11 @@
+schema_version: "1.0"
+prompt_id: semantic_request_a3_v1
+version: "1.0.0"
+approach: A3
+locale_strategy: case_locale_only
+expected_output_schema: semantic_request.schema.json
+author: SemPlan Benchmark
+reviewer: Bruno Santos Teixeira
+changelog:
+  - Initial F4 strict semantic-request prompt for stateless A3.
+template_file: prompt.md

@@ -1,0 +1,1 @@
+SELECT SUM(analytics_order_facts.net_revenue) AS net_revenue FROM analytics_order_facts WHERE analytics_order_facts.year = 2023 AND analytics_order_facts.month = 2 AND analytics_order_facts.region = 'West' AND analytics_order_facts.channel = 'retail' AND analytics_order_facts.customer_segment = 'consumer' AND analytics_order_facts.category = 'category_07' LIMIT 1000

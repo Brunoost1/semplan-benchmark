@@ -1,0 +1,11 @@
+schema_version: "1.0"
+prompt_id: tool_agent_a2_v1
+version: "1.0.0"
+approach: A2
+locale_strategy: bilingual_case_locale
+expected_output_schema: tool_agent_turn.schema.json
+author: Bruno Santos Teixeira
+reviewer: Bruno Santos Teixeira
+changelog:
+  - Initial F5 typed tool-agent baseline prompt.
+template_file: prompt.md

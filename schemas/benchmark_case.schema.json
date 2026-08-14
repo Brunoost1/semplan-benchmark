@@ -1,0 +1,297 @@
+{
+  "$defs": {
+    "BenchmarkContext": {
+      "additionalProperties": false,
+      "properties": {
+        "reference_date": {
+          "format": "date",
+          "title": "Reference Date",
+          "type": "string"
+        },
+        "timezone": {
+          "minLength": 1,
+          "title": "Timezone",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reference_date",
+        "timezone"
+      ],
+      "title": "BenchmarkContext",
+      "type": "object"
+    },
+    "BenchmarkReview": {
+      "additionalProperties": false,
+      "properties": {
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "reviewed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reviewed At"
+        },
+        "reviewer": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reviewer"
+        },
+        "status": {
+          "$ref": "#/$defs/ReviewStatus"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "BenchmarkReview",
+      "type": "object"
+    },
+    "ClarificationTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "acceptable_resolution_choices": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Acceptable Resolution Choices",
+          "type": "array"
+        },
+        "question_intent": {
+          "minLength": 1,
+          "title": "Question Intent",
+          "type": "string"
+        }
+      },
+      "required": [
+        "question_intent",
+        "acceptable_resolution_choices"
+      ],
+      "title": "ClarificationTarget",
+      "type": "object"
+    },
+    "DatasetSplit": {
+      "enum": [
+        "development",
+        "validation",
+        "test_public",
+        "test_hidden",
+        "multi_turn",
+        "adversarial"
+      ],
+      "title": "DatasetSplit",
+      "type": "string"
+    },
+    "Difficulty": {
+      "enum": [
+        "easy",
+        "medium",
+        "hard"
+      ],
+      "title": "Difficulty",
+      "type": "string"
+    },
+    "ExpectedPolicy": {
+      "enum": [
+        "ALLOW",
+        "CLARIFY",
+        "OUT_OF_SCOPE",
+        "POLICY_VIOLATION"
+      ],
+      "title": "ExpectedPolicy",
+      "type": "string"
+    },
+    "Locale": {
+      "enum": [
+        "en-US",
+        "pt-BR"
+      ],
+      "title": "Locale",
+      "type": "string"
+    },
+    "Operation": {
+      "enum": [
+        "REPLACE",
+        "PATCH",
+        "CLARIFY",
+        "OUT_OF_SCOPE"
+      ],
+      "title": "Operation",
+      "type": "string"
+    },
+    "QuestionClass": {
+      "enum": [
+        "lookup",
+        "grouped_aggregation",
+        "ranking",
+        "comparison",
+        "variance",
+        "trend",
+        "share_ratio",
+        "filtering",
+        "contract_status",
+        "ambiguity",
+        "out_of_scope",
+        "multi_turn",
+        "adversarial"
+      ],
+      "title": "QuestionClass",
+      "type": "string"
+    },
+    "ReviewStatus": {
+      "enum": [
+        "pending_author_review",
+        "approved",
+        "rejected"
+      ],
+      "title": "ReviewStatus",
+      "type": "string"
+    }
+  },
+  "$id": "https://semplan-benchmark.local/schemas/benchmark_case.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "case_id": {
+      "pattern": "^(DEV|VAL|TST-PUB|TST-HID|MT|ADV)-(SMK|REL)-[0-9]{6}$",
+      "title": "Case Id",
+      "type": "string"
+    },
+    "clarification": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ClarificationTarget"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "context": {
+      "$ref": "#/$defs/BenchmarkContext"
+    },
+    "difficulty": {
+      "$ref": "#/$defs/Difficulty"
+    },
+    "expected_operation": {
+      "$ref": "#/$defs/Operation"
+    },
+    "expected_policy": {
+      "$ref": "#/$defs/ExpectedPolicy"
+    },
+    "gold_answer_ref": {
+      "title": "Gold Answer Ref",
+      "type": "string"
+    },
+    "gold_semantic_plan_ref": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Gold Semantic Plan Ref"
+    },
+    "gold_sql_ref": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Gold Sql Ref"
+    },
+    "intent": {
+      "$ref": "#/$defs/QuestionClass"
+    },
+    "language": {
+      "$ref": "#/$defs/Locale"
+    },
+    "requires_clarification": {
+      "title": "Requires Clarification",
+      "type": "boolean"
+    },
+    "review": {
+      "$ref": "#/$defs/BenchmarkReview"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "semantic_fingerprint": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Semantic Fingerprint",
+      "type": "string"
+    },
+    "split": {
+      "$ref": "#/$defs/DatasetSplit"
+    },
+    "tags": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_]*$",
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Tags",
+      "type": "array"
+    },
+    "template_family": {
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "title": "Template Family",
+      "type": "string"
+    },
+    "utterance": {
+      "minLength": 1,
+      "title": "Utterance",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "case_id",
+    "split",
+    "language",
+    "utterance",
+    "context",
+    "expected_operation",
+    "intent",
+    "difficulty",
+    "requires_clarification",
+    "gold_answer_ref",
+    "expected_policy",
+    "tags",
+    "template_family",
+    "semantic_fingerprint",
+    "review"
+  ],
+  "title": "BenchmarkCase",
+  "type": "object"
+}

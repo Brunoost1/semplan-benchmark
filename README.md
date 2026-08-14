@@ -27,17 +27,45 @@ Absolute answer correctness was low across all four approaches. A3 had the highe
 
 Latency is not used as primary comparative evidence because the frozen runner recorded zero latency for some captured typed failures, making cross-approach medians non-comparable.
 
-## Public contents
+## Public Contents
 
-This repository snapshot intentionally contains only material suitable for public scientific distribution:
+This repository intentionally contains only material suitable for public scientific distribution and no internal working documentation:
 
-- `paper/` — public preprint pointer and DOI;
+- `src/semplan/` — runnable benchmark, provider, scoring, and analysis code;
+- `tests/` — offline unit, contract, property, and golden tests;
+- `schemas/`, `catalog/`, `configs/`, `prompts/`, `db/` — executable contracts and benchmark configuration;
+- `data/benchmark/` — deterministic synthetic benchmark fixtures used by the public checks;
 - `results/` — frozen derived CSV result tables used by the manuscript, plus a convenience ZIP bundle;
+- `paper/figures/` — generated public result figures;
+- `paper/README.md` — public preprint pointer and DOI;
 - `release/` — public release metadata, reproducibility notes, and checksums.
 
-Private implementation specifications, internal authoring/development instructions, local credentials, provider caches, raw provider responses, and other non-public working materials are intentionally excluded from this repository.
+Private implementation specifications, internal authoring/development instructions, local credentials, provider caches, raw provider responses, and other non-public working materials are intentionally excluded.
 
-The broader software/dataset reproducibility deposit is tracked separately from this public manuscript-and-results snapshot.
+## Quick Start
+
+Install `uv`, then run the free validation path:
+
+```bash
+uv sync --python 3.12 --extra dev --frozen
+make validate-free
+```
+
+This path is offline with respect to model providers: it must not require `OPENAI_API_KEY`, does not call paid APIs, regenerates deterministic small synthetic data, and validates the public benchmark smoke fixture.
+
+Optional Docker/PostgreSQL checks are available:
+
+```bash
+make db-up db-migrate db-load-small validate-benchmark-db e2e-free test-integration db-down
+```
+
+The release-scale benchmark can be validated without provider calls:
+
+```bash
+uv run --python 3.12 --extra dev python -m semplan.cli.main validate-benchmark data/benchmark/f7_release_scale --allow-hidden --require-approved
+uv run --python 3.12 --extra dev python -m semplan.cli.main validate-release-benchmark data/benchmark/f7_release_scale
+uv run --python 3.12 --extra dev python -m semplan.cli.main validate-language-quality data/benchmark/f7_release_scale
+```
 
 ## Preprint
 

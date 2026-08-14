@@ -1,0 +1,19 @@
+schema_version: "1.0"
+locale: en-US
+synonyms:
+  sales: net_revenue
+  revenue: net_revenue
+  gross sales: gross_revenue
+  margin: contribution_margin
+  margin percent: contribution_margin_pct
+  orders: order_count
+  aov: average_order_value
+  spend: expense_amount
+  expenses: expense_amount
+  budget: budget_amount
+  variance: budget_variance
+  contracts: active_contract_value
+  active customers: active_customer_count
+  territory: region
+  segment: customer_segment
+  payment type: payment_method

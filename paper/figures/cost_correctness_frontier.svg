@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="360" viewBox="0 0 760 360" role="img" aria-label="Cost-correctness frontier">
+<title>Cost-correctness frontier</title>
+<rect width="100%" height="100%" fill="white"/>
+<text x="24" y="28" font-size="16" font-family="Arial">Cost-correctness frontier</text>
+<line x1="60" y1="300" x2="700" y2="300" stroke="#222"/>
+<line x1="60" y1="300" x2="60" y2="60" stroke="#222"/>
+<circle cx="673" cy="252" r="7" fill="#111"/>
+<text x="683" y="256">A1</text>
+<circle cx="680" cy="251" r="7" fill="#111"/>
+<text x="690" y="255">A2</text>
+<circle cx="402" cy="244" r="7" fill="#111"/>
+<text x="412" y="248">A3</text>
+<circle cx="373" cy="247" r="7" fill="#111"/>
+<text x="383" y="251">A4</text>
+</svg>

@@ -1,0 +1,239 @@
+{
+  "$defs": {
+    "ClarificationOption": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "$ref": "#/$defs/LocalizedText"
+        },
+        "option_id": {
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "title": "Option Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "option_id",
+        "label"
+      ],
+      "title": "ClarificationOption",
+      "type": "object"
+    },
+    "ClarificationQuestion": {
+      "additionalProperties": false,
+      "properties": {
+        "clarification_id": {
+          "pattern": "^clar-[0-9a-f]{16}$",
+          "title": "Clarification Id",
+          "type": "string"
+        },
+        "options": {
+          "items": {
+            "$ref": "#/$defs/ClarificationOption"
+          },
+          "minItems": 1,
+          "title": "Options",
+          "type": "array"
+        },
+        "question": {
+          "$ref": "#/$defs/LocalizedText"
+        },
+        "reason_code": {
+          "$ref": "#/$defs/ClarificationReasonCode"
+        },
+        "state_patch_template": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "State Patch Template",
+          "type": "object"
+        }
+      },
+      "required": [
+        "clarification_id",
+        "reason_code",
+        "question",
+        "options",
+        "state_patch_template"
+      ],
+      "title": "ClarificationQuestion",
+      "type": "object"
+    },
+    "ClarificationReasonCode": {
+      "enum": [
+        "AMBIGUOUS_METRIC",
+        "AMBIGUOUS_DIMENSION",
+        "AMBIGUOUS_ENTITY",
+        "AMBIGUOUS_TIME_RANGE",
+        "AMBIGUOUS_COMPARISON_BASIS",
+        "AMBIGUOUS_RANKING_DIRECTION",
+        "AMBIGUOUS_SCOPE"
+      ],
+      "title": "ClarificationReasonCode",
+      "type": "string"
+    },
+    "LocalizedText": {
+      "additionalProperties": false,
+      "properties": {
+        "en-US": {
+          "minLength": 1,
+          "title": "En-Us",
+          "type": "string"
+        },
+        "pt-BR": {
+          "minLength": 1,
+          "title": "Pt-Br",
+          "type": "string"
+        }
+      },
+      "required": [
+        "en-US",
+        "pt-BR"
+      ],
+      "title": "LocalizedText",
+      "type": "object"
+    },
+    "OutOfScopeReasonCode": {
+      "enum": [
+        "UNSUPPORTED_DOMAIN",
+        "WRITE_OPERATION",
+        "PROHIBITED_DATA_ACCESS",
+        "NON_ANALYTICS_REQUEST",
+        "UNSUPPORTED_COMPUTATION",
+        "PROMPT_EXTRACTION",
+        "MALFORMED_INPUT"
+      ],
+      "title": "OutOfScopeReasonCode",
+      "type": "string"
+    },
+    "OutOfScopeResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "message": {
+          "$ref": "#/$defs/LocalizedText"
+        },
+        "reason_code": {
+          "$ref": "#/$defs/OutOfScopeReasonCode"
+        }
+      },
+      "required": [
+        "reason_code",
+        "message"
+      ],
+      "title": "OutOfScopeResponse",
+      "type": "object"
+    },
+    "ResultOutcome": {
+      "enum": [
+        "ANSWERED",
+        "CLARIFY",
+        "OUT_OF_SCOPE",
+        "ERROR"
+      ],
+      "title": "ResultOutcome",
+      "type": "string"
+    }
+  },
+  "$id": "https://semplan-benchmark.local/schemas/canonical_response.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "assumptions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Assumptions",
+      "type": "array"
+    },
+    "clarification": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ClarificationQuestion"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "message": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/LocalizedText"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "out_of_scope": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/OutOfScopeResponse"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "outcome": {
+      "$ref": "#/$defs/ResultOutcome"
+    },
+    "rows": {
+      "items": {
+        "additionalProperties": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "type": "object"
+      },
+      "title": "Rows",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "units": {
+      "patternProperties": {
+        "^[a-z][a-z0-9_]*$": {
+          "type": "string"
+        }
+      },
+      "title": "Units",
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "outcome"
+  ],
+  "title": "CanonicalResponse",
+  "type": "object"
+}

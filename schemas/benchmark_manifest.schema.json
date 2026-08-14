@@ -1,0 +1,131 @@
+{
+  "$defs": {
+    "DatasetSplit": {
+      "enum": [
+        "development",
+        "validation",
+        "test_public",
+        "test_hidden",
+        "multi_turn",
+        "adversarial"
+      ],
+      "title": "DatasetSplit",
+      "type": "string"
+    },
+    "Locale": {
+      "enum": [
+        "en-US",
+        "pt-BR"
+      ],
+      "title": "Locale",
+      "type": "string"
+    },
+    "ReviewStatus": {
+      "enum": [
+        "pending_author_review",
+        "approved",
+        "rejected"
+      ],
+      "title": "ReviewStatus",
+      "type": "string"
+    }
+  },
+  "$id": "https://semplan-benchmark.local/schemas/benchmark_manifest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "benchmark_version": {
+      "minLength": 1,
+      "title": "Benchmark Version",
+      "type": "string"
+    },
+    "case_count": {
+      "minimum": 0,
+      "title": "Case Count",
+      "type": "integer"
+    },
+    "dataset_manifest_hash": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Dataset Manifest Hash",
+      "type": "string"
+    },
+    "dataset_version": {
+      "minLength": 1,
+      "title": "Dataset Version",
+      "type": "string"
+    },
+    "file_hashes": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "File Hashes",
+      "type": "object"
+    },
+    "hidden_included": {
+      "title": "Hidden Included",
+      "type": "boolean"
+    },
+    "language_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/Locale"
+      },
+      "title": "Language Counts",
+      "type": "object"
+    },
+    "review_summary": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/ReviewStatus"
+      },
+      "title": "Review Summary",
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "split_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "propertyNames": {
+        "$ref": "#/$defs/DatasetSplit"
+      },
+      "title": "Split Counts",
+      "type": "object"
+    },
+    "state": {
+      "enum": [
+        "draft",
+        "validated",
+        "frozen",
+        "evaluated",
+        "released",
+        "deprecated"
+      ],
+      "title": "State",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "benchmark_version",
+    "dataset_version",
+    "dataset_manifest_hash",
+    "state",
+    "case_count",
+    "split_counts",
+    "language_counts",
+    "file_hashes",
+    "hidden_included",
+    "review_summary"
+  ],
+  "title": "BenchmarkManifest",
+  "type": "object"
+}

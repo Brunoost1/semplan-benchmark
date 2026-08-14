@@ -1,0 +1,68 @@
+{
+  "$defs": {
+    "OutOfScopeReasonCode": {
+      "enum": [
+        "UNSUPPORTED_DOMAIN",
+        "WRITE_OPERATION",
+        "PROHIBITED_DATA_ACCESS",
+        "NON_ANALYTICS_REQUEST",
+        "UNSUPPORTED_COMPUTATION",
+        "PROMPT_EXTRACTION",
+        "MALFORMED_INPUT"
+      ],
+      "title": "OutOfScopeReasonCode",
+      "type": "string"
+    }
+  },
+  "$id": "https://semplan-benchmark.local/schemas/direct_sql.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "assumptions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Assumptions",
+      "type": "array"
+    },
+    "cannot_answer": {
+      "title": "Cannot Answer",
+      "type": "boolean"
+    },
+    "reason_code": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/OutOfScopeReasonCode"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "sql": {
+      "anyOf": [
+        {
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Sql"
+    }
+  },
+  "required": [
+    "schema_version",
+    "cannot_answer"
+  ],
+  "title": "DirectSqlEnvelope",
+  "type": "object"
+}

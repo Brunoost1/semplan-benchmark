@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  foundation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+      - name: Sync dependencies
+        run: uv sync --python 3.12 --extra dev --frozen
+      - name: Lint
+        run: make lint
+      - name: Typecheck
+        run: make typecheck
+      - name: Unit tests
+        run: make test-unit
+      - name: Contract tests
+        run: make test-contract
+      - name: Property tests
+        run: make test-property
+      - name: Golden tests
+        run: make test-golden
+      - name: Coverage
+        run: make coverage
+      - name: Schema checks
+        run: make schema-check
+      - name: Catalog checks
+        run: make catalog-check
+      - name: Deterministic data validation
+        run: make validate-data
+      - name: Benchmark validation
+        run: make validate-benchmark
+      - name: Secret scan
+        run: make secret-scan
+      - name: Package build
+        run: make build
+      - name: PostgreSQL smoke up
+        run: make db-up
+      - name: PostgreSQL migrate
+        run: make db-migrate
+      - name: PostgreSQL load small dataset
+        run: make db-load-small
+      - name: Benchmark gold execution
+        run: make validate-benchmark-db
+      - name: Free A1-A4 E2E
+        run: make e2e-free
+      - name: PostgreSQL integration tests
+        run: make test-integration
+      - name: PostgreSQL downgrade
+        run: make db-downgrade
+      - name: PostgreSQL smoke down
+        if: always()
+        run: make db-down

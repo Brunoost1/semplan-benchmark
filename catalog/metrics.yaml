@@ -1,0 +1,162 @@
+schema_version: "1.0"
+metrics:
+  - id: gross_revenue
+    labels:
+      en-US: Gross revenue
+      pt-BR: Receita bruta
+    definition: Sum of item extended price before discounts.
+    unit: usd
+    aggregation: SUM
+    eligible_dimensions: [date, year, quarter, month, week, region, country, customer_segment, channel, product, category, subcategory, brand, payment_method]
+    required_joins: [order_items_to_orders, orders_to_customers, order_items_to_products, payments_to_orders]
+    null_behavior: Treat missing amounts as zero only after row eligibility is established.
+    sql:
+      view: analytics_order_facts
+      expression: gross_revenue
+  - id: net_revenue
+    labels:
+      en-US: Net revenue
+      pt-BR: Receita liquida
+    definition: Gross revenue minus discounts and confirmed refunds; cancelled orders do not contribute.
+    unit: usd
+    aggregation: SUM
+    eligible_dimensions: [date, year, quarter, month, week, region, country, customer_segment, channel, product, category, subcategory, brand, payment_method]
+    required_joins: [order_items_to_orders, orders_to_customers, order_items_to_products, payments_to_orders]
+    null_behavior: Treat missing confirmed refunds as zero.
+    sql:
+      view: analytics_order_facts
+      expression: net_revenue
+  - id: contribution_margin
+    labels:
+      en-US: Contribution margin
+      pt-BR: Margem de contribuicao
+    definition: Net revenue minus product cost and payment fees.
+    unit: usd
+    aggregation: SUM
+    eligible_dimensions: [date, year, quarter, month, week, region, country, customer_segment, channel, product, category, subcategory, brand, payment_method]
+    required_joins: [order_items_to_orders, orders_to_customers, order_items_to_products, payments_to_orders]
+    null_behavior: Undefined only when required revenue rows are absent; otherwise missing fees are zero.
+    sql:
+      view: analytics_order_facts
+      expression: contribution_margin
+  - id: contribution_margin_pct
+    labels:
+      en-US: Contribution margin percent
+      pt-BR: Percentual de margem de contribuicao
+    definition: Contribution margin divided by net revenue when net revenue is non-zero.
+    unit: ratio
+    aggregation: RATIO
+    eligible_dimensions: [date, year, quarter, month, week, region, country, customer_segment, channel, product, category, subcategory, brand, payment_method]
+    required_joins: [order_items_to_orders, orders_to_customers, order_items_to_products, payments_to_orders]
+    depends_on: [contribution_margin, net_revenue]
+    null_behavior: Null when summed net revenue is zero.
+    sql:
+      view: analytics_order_facts
+      expression: contribution_margin_pct
+  - id: order_count
+    labels:
+      en-US: Order count
+      pt-BR: Contagem de pedidos
+    definition: Count of eligible non-cancelled orders.
+    unit: count
+    aggregation: COUNT_DISTINCT
+    eligible_dimensions: [date, year, quarter, month, week, region, country, customer_segment, channel, product, category, subcategory, brand, payment_method]
+    required_joins: [orders_to_customers, order_items_to_orders]
+    null_behavior: Zero when no eligible orders match.
+    sql:
+      view: analytics_order_facts
+      expression: order_id
+  - id: average_order_value
+    labels:
+      en-US: Average order value
+      pt-BR: Valor medio do pedido
+    definition: Net revenue divided by order count.
+    unit: usd
+    aggregation: RATIO
+    eligible_dimensions: [date, year, quarter, month, week, region, country, customer_segment, channel]
+    required_joins: [orders_to_customers, order_items_to_orders, payments_to_orders]
+    depends_on: [net_revenue, order_count]
+    null_behavior: Null when order count is zero.
+    sql:
+      view: analytics_order_facts
+      expression: average_order_value
+  - id: expense_amount
+    labels:
+      en-US: Expense amount
+      pt-BR: Valor de despesas
+    definition: Sum of approved expenses.
+    unit: usd
+    aggregation: SUM
+    eligible_dimensions: [date, year, quarter, month, week, department, cost_center, expense_category]
+    required_joins: [expenses_to_departments, expenses_to_cost_centers]
+    null_behavior: Zero when no approved expenses match.
+    sql:
+      view: analytics_expense_facts
+      expression: expense_amount
+  - id: budget_amount
+    labels:
+      en-US: Budget amount
+      pt-BR: Valor orcado
+    definition: Sum of budget values.
+    unit: usd
+    aggregation: SUM
+    eligible_dimensions: [date, year, quarter, month, department, cost_center, expense_category]
+    required_joins: [budgets_to_cost_centers, cost_centers_to_departments]
+    null_behavior: Zero when no budget rows match.
+    sql:
+      view: analytics_budget_facts
+      expression: budget_amount
+  - id: budget_variance
+    labels:
+      en-US: Budget variance
+      pt-BR: Variacao orcamentaria
+    definition: Approved actual expense minus budget amount.
+    unit: usd
+    aggregation: DERIVED
+    eligible_dimensions: [date, year, quarter, month, department, cost_center, expense_category]
+    required_joins: [expenses_to_cost_centers, budgets_to_cost_centers]
+    depends_on: [expense_amount, budget_amount]
+    null_behavior: Missing actuals or budgets are treated as zero before subtraction.
+    sql:
+      view: analytics_budget_facts
+      expression: budget_variance
+  - id: budget_variance_pct
+    labels:
+      en-US: Budget variance percent
+      pt-BR: Percentual de variacao orcamentaria
+    definition: Budget variance divided by budget when budget is non-zero.
+    unit: ratio
+    aggregation: RATIO
+    eligible_dimensions: [date, year, quarter, month, department, cost_center, expense_category]
+    required_joins: [expenses_to_cost_centers, budgets_to_cost_centers]
+    depends_on: [budget_variance, budget_amount]
+    null_behavior: Null when summed budget amount is zero.
+    sql:
+      view: analytics_budget_facts
+      expression: budget_variance_pct
+  - id: active_contract_value
+    labels:
+      en-US: Active contract value
+      pt-BR: Valor de contratos ativos
+    definition: Annual value of contracts active at the reference date.
+    unit: usd
+    aggregation: SUM
+    eligible_dimensions: [date, year, quarter, month, region, supplier, contract_risk]
+    required_joins: [contracts_to_suppliers]
+    null_behavior: Zero when no active contracts match.
+    sql:
+      view: analytics_contract_facts
+      expression: active_contract_value
+  - id: active_customer_count
+    labels:
+      en-US: Active customer count
+      pt-BR: Contagem de clientes ativos
+    definition: Customers with at least one eligible order in the 365 days ending at the reference date.
+    unit: count
+    aggregation: COUNT_DISTINCT
+    eligible_dimensions: [region, country, customer_segment, channel]
+    required_joins: [orders_to_customers]
+    null_behavior: Zero when no active customers match.
+    sql:
+      view: analytics_order_facts
+      expression: active_customer_id

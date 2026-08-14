@@ -6,6 +6,15 @@
 venv/
 __pycache__/
 *.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+dist/
+build/
+*.egg-info/
 
 # Editor / OS
 .DS_Store
@@ -22,6 +31,10 @@ __pycache__/
 *.synctex.gz
 
 # Private / local experiment material
+artifacts/cache/
+artifacts/provider_cache/
 artifacts/raw/
+artifacts/runs/
+artifacts/validation/
 provider_cache/
 raw_provider_responses/

@@ -1,0 +1,22 @@
+schema_version: "1.0"
+project:
+  reference_date: "2026-08-01"
+  timezone: "UTC"
+data:
+  seed: 20260806
+  profile: small
+provider:
+  name: openai
+  model: gpt-5.6-luna
+  reasoning_effort: low
+  max_output_tokens: 1200
+  timeout_seconds: 60
+experiment:
+  repetitions: 3
+  approaches: [A1, A2, A3, A4]
+  budget_usd: 18.0
+  allow_paid: false
+execution:
+  statement_timeout_ms: 5000
+  max_rows: 1000
+  read_only: true

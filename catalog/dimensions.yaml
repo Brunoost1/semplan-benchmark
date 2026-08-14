@@ -1,0 +1,97 @@
+schema_version: "1.0"
+dimensions:
+  - id: date
+    labels: {en-US: Date, pt-BR: Data}
+    source: {view: dim_calendar, column: date}
+    cardinality_estimate: 1826
+    allowed_operators: [EQ, NE, IN, NOT_IN, GT, GTE, LT, LTE, BETWEEN]
+  - id: year
+    labels: {en-US: Year, pt-BR: Ano}
+    source: {view: dim_calendar, column: year}
+    cardinality_estimate: 5
+    allowed_operators: [EQ, NE, IN, NOT_IN, GT, GTE, LT, LTE, BETWEEN]
+  - id: quarter
+    labels: {en-US: Quarter, pt-BR: Trimestre}
+    source: {view: dim_calendar, column: quarter}
+    cardinality_estimate: 4
+    allowed_operators: [EQ, NE, IN, NOT_IN, BETWEEN]
+  - id: month
+    labels: {en-US: Month, pt-BR: Mes}
+    source: {view: dim_calendar, column: month}
+    cardinality_estimate: 12
+    allowed_operators: [EQ, NE, IN, NOT_IN, BETWEEN]
+  - id: week
+    labels: {en-US: Week, pt-BR: Semana}
+    source: {view: dim_calendar, column: iso_week}
+    cardinality_estimate: 53
+    allowed_operators: [EQ, NE, IN, NOT_IN, BETWEEN]
+  - id: region
+    labels: {en-US: Region, pt-BR: Regiao}
+    source: {view: dim_customers, column: region}
+    cardinality_estimate: 5
+    allowed_operators: [EQ, NE, IN, NOT_IN, CONTAINS_CANONICAL]
+  - id: country
+    labels: {en-US: Country, pt-BR: Pais}
+    source: {view: dim_customers, column: country_code}
+    cardinality_estimate: 12
+    allowed_operators: [EQ, NE, IN, NOT_IN, CONTAINS_CANONICAL]
+  - id: customer_segment
+    labels: {en-US: Customer segment, pt-BR: Segmento de cliente}
+    source: {view: dim_customers, column: segment}
+    cardinality_estimate: 6
+    allowed_operators: [EQ, NE, IN, NOT_IN, CONTAINS_CANONICAL]
+  - id: channel
+    labels: {en-US: Channel, pt-BR: Canal}
+    source: {view: analytics_order_facts, column: channel}
+    cardinality_estimate: 6
+    allowed_operators: [EQ, NE, IN, NOT_IN, CONTAINS_CANONICAL]
+  - id: product
+    labels: {en-US: Product, pt-BR: Produto}
+    source: {view: dim_products, column: product_id}
+    cardinality_estimate: 1200
+    allowed_operators: [EQ, NE, IN, NOT_IN]
+  - id: category
+    labels: {en-US: Category, pt-BR: Categoria}
+    source: {view: dim_products, column: category}
+    cardinality_estimate: 12
+    allowed_operators: [EQ, NE, IN, NOT_IN, CONTAINS_CANONICAL]
+  - id: subcategory
+    labels: {en-US: Subcategory, pt-BR: Subcategoria}
+    source: {view: dim_products, column: subcategory}
+    cardinality_estimate: 60
+    allowed_operators: [EQ, NE, IN, NOT_IN, CONTAINS_CANONICAL]
+  - id: brand
+    labels: {en-US: Brand, pt-BR: Marca}
+    source: {view: dim_products, column: brand}
+    cardinality_estimate: 80
+    allowed_operators: [EQ, NE, IN, NOT_IN, CONTAINS_CANONICAL]
+  - id: department
+    labels: {en-US: Department, pt-BR: Departamento}
+    source: {view: dim_departments, column: name}
+    cardinality_estimate: 15
+    allowed_operators: [EQ, NE, IN, NOT_IN, CONTAINS_CANONICAL]
+  - id: cost_center
+    labels: {en-US: Cost center, pt-BR: Centro de custo}
+    source: {view: dim_cost_centers, column: code}
+    cardinality_estimate: 60
+    allowed_operators: [EQ, NE, IN, NOT_IN, CONTAINS_CANONICAL]
+  - id: expense_category
+    labels: {en-US: Expense category, pt-BR: Categoria de despesa}
+    source: {view: analytics_expense_facts, column: expense_category}
+    cardinality_estimate: 24
+    allowed_operators: [EQ, NE, IN, NOT_IN, CONTAINS_CANONICAL]
+  - id: supplier
+    labels: {en-US: Supplier, pt-BR: Fornecedor}
+    source: {view: dim_suppliers, column: supplier_id}
+    cardinality_estimate: 2000
+    allowed_operators: [EQ, NE, IN, NOT_IN]
+  - id: contract_risk
+    labels: {en-US: Contract risk, pt-BR: Risco do contrato}
+    source: {view: analytics_contract_facts, column: contract_risk}
+    cardinality_estimate: 4
+    allowed_operators: [EQ, NE, IN, NOT_IN, CONTAINS_CANONICAL]
+  - id: payment_method
+    labels: {en-US: Payment method, pt-BR: Metodo de pagamento}
+    source: {view: analytics_order_facts, column: payment_method}
+    cardinality_estimate: 8
+    allowed_operators: [EQ, NE, IN, NOT_IN, CONTAINS_CANONICAL]

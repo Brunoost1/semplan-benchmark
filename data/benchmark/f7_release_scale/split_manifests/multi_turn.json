@@ -1,0 +1,1 @@
+{"benchmark_version":"1.0.0-rc.2","case_count":200,"case_file":"cases/multi_turn.jsonl","case_file_sha256":"fdc2e8f2a39b231fa18208f1a970b51088efc5cffd8f5ce0b778d2e6d378fa9c","hidden_sealed":false,"schema_version":"1.0","split":"multi_turn"}

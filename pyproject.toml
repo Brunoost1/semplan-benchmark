@@ -1,0 +1,70 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "semplan-benchmark"
+version = "0.1.0"
+description = "Specification-driven SemPlan Benchmark foundation."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Bruno Santos Teixeira" }]
+dependencies = [
+  "alembic>=1.13,<2",
+  "jsonschema>=4.23,<5",
+  "openai>=1.99,<3",
+  "psycopg[binary]>=3.2,<4",
+  "pyarrow>=23.0.1,<24",
+  "pydantic>=2.8,<3",
+  "PyYAML>=6.0.2,<7",
+  "sqlglot>=26.0,<27",
+  "SQLAlchemy>=2.0,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "build>=1.2,<2",
+  "hypothesis>=6.112,<7",
+  "mypy>=1.11,<2",
+  "pip-audit>=2.7,<3",
+  "pytest>=9.0.3,<10",
+  "pytest-cov>=5,<6",
+  "ruff>=0.6,<1",
+  "types-jsonschema>=4.23,<5",
+  "types-PyYAML>=6.0.12,<7",
+]
+
+[project.scripts]
+semplan = "semplan.cli.main:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/semplan"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["B", "E", "F", "I", "UP"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+mypy_path = "src"
+warn_unreachable = true
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-config --strict-markers"
+testpaths = ["tests"]
+markers = [
+  "allow_network: permits deliberate network access for an explicitly isolated test",
+  "manual_paid: requires explicit owner approval and may call a paid provider",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["semplan"]
+
+[tool.coverage.report]
+show_missing = true

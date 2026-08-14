@@ -1,0 +1,1 @@
+SELECT expense_category, AVG(budget_variance_pct) AS budget_variance_pct FROM analytics_budget_facts WHERE year = 2026 GROUP BY expense_category ORDER BY budget_variance_pct DESC, expense_category ASC LIMIT 5

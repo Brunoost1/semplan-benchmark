@@ -1,0 +1,1 @@
+SELECT analytics_order_facts.channel, SUM(analytics_order_facts.contribution_margin) AS contribution_margin FROM analytics_order_facts WHERE analytics_order_facts.year IN (2024, 2025) AND analytics_order_facts.region = 'South' AND analytics_order_facts.customer_segment = 'mid_market' GROUP BY analytics_order_facts.channel ORDER BY analytics_order_facts.channel ASC LIMIT 24

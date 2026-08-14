@@ -1,0 +1,14 @@
+schema_version: "1.0"
+operators:
+  - EQ
+  - NE
+  - IN
+  - NOT_IN
+  - GT
+  - GTE
+  - LT
+  - LTE
+  - BETWEEN
+  - IS_NULL
+  - IS_NOT_NULL
+  - CONTAINS_CANONICAL

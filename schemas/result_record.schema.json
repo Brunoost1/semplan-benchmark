@@ -1,0 +1,594 @@
+{
+  "$defs": {
+    "AnalysisRole": {
+      "enum": [
+        "primary",
+        "stability"
+      ],
+      "title": "AnalysisRole",
+      "type": "string"
+    },
+    "Approach": {
+      "enum": [
+        "A1",
+        "A2",
+        "A3",
+        "A4"
+      ],
+      "title": "Approach",
+      "type": "string"
+    },
+    "ArtifactRef": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "pattern": "^[A-Za-z0-9_./-]+$",
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "title": "ArtifactRef",
+      "type": "object"
+    },
+    "DatasetSplit": {
+      "enum": [
+        "development",
+        "validation",
+        "test_public",
+        "test_hidden",
+        "multi_turn",
+        "adversarial"
+      ],
+      "title": "DatasetSplit",
+      "type": "string"
+    },
+    "ExpectedPolicy": {
+      "enum": [
+        "ALLOW",
+        "CLARIFY",
+        "OUT_OF_SCOPE",
+        "POLICY_VIOLATION"
+      ],
+      "title": "ExpectedPolicy",
+      "type": "string"
+    },
+    "Locale": {
+      "enum": [
+        "en-US",
+        "pt-BR"
+      ],
+      "title": "Locale",
+      "type": "string"
+    },
+    "PredictionStatus": {
+      "enum": [
+        "parsed",
+        "invalid",
+        "refused",
+        "incomplete",
+        "error"
+      ],
+      "title": "PredictionStatus",
+      "type": "string"
+    },
+    "ProviderUsage": {
+      "additionalProperties": false,
+      "properties": {
+        "cached_input_tokens": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Cached Input Tokens",
+          "type": "integer"
+        },
+        "input_tokens": {
+          "minimum": 0,
+          "title": "Input Tokens",
+          "type": "integer"
+        },
+        "output_tokens": {
+          "minimum": 0,
+          "title": "Output Tokens",
+          "type": "integer"
+        },
+        "reasoning_tokens": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Reasoning Tokens",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "input_tokens",
+        "output_tokens"
+      ],
+      "title": "ProviderUsage",
+      "type": "object"
+    },
+    "ResultError": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "minLength": 1,
+          "title": "Code",
+          "type": "string"
+        },
+        "layer": {
+          "minLength": 1,
+          "title": "Layer",
+          "type": "string"
+        },
+        "message": {
+          "minLength": 1,
+          "title": "Message",
+          "type": "string"
+        },
+        "retryable": {
+          "title": "Retryable",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "retryable",
+        "layer"
+      ],
+      "title": "ResultError",
+      "type": "object"
+    },
+    "ResultExecutionRef": {
+      "additionalProperties": false,
+      "properties": {
+        "duration_ms": {
+          "minimum": 0,
+          "title": "Duration Ms",
+          "type": "integer"
+        },
+        "executed_database": {
+          "title": "Executed Database",
+          "type": "boolean"
+        },
+        "policy": {
+          "$ref": "#/$defs/ExpectedPolicy"
+        },
+        "query_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Query Sha256"
+        },
+        "result_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "row_count": {
+          "minimum": 0,
+          "title": "Row Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "policy",
+        "executed_database",
+        "duration_ms",
+        "row_count"
+      ],
+      "title": "ResultExecutionRef",
+      "type": "object"
+    },
+    "ResultInputRef": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "$ref": "#/$defs/Locale"
+        },
+        "split": {
+          "$ref": "#/$defs/DatasetSplit"
+        },
+        "state_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "State Sha256"
+        },
+        "utterance_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Utterance Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "utterance_sha256",
+        "split",
+        "language"
+      ],
+      "title": "ResultInputRef",
+      "type": "object"
+    },
+    "ResultOutcome": {
+      "enum": [
+        "ANSWERED",
+        "CLARIFY",
+        "OUT_OF_SCOPE",
+        "ERROR"
+      ],
+      "title": "ResultOutcome",
+      "type": "string"
+    },
+    "ResultPredictionRef": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_ref": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "status": {
+          "$ref": "#/$defs/PredictionStatus"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "ResultPredictionRef",
+      "type": "object"
+    },
+    "ResultProviderRef": {
+      "additionalProperties": false,
+      "properties": {
+        "cost_usd": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Cost Usd"
+        },
+        "model_requested": {
+          "minLength": 1,
+          "title": "Model Requested",
+          "type": "string"
+        },
+        "model_returned": {
+          "minLength": 1,
+          "title": "Model Returned",
+          "type": "string"
+        },
+        "request_ref": {
+          "$ref": "#/$defs/ArtifactRef"
+        },
+        "request_sha256": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Request Sha256",
+          "type": "string"
+        },
+        "response_ref": {
+          "$ref": "#/$defs/ArtifactRef"
+        },
+        "usage": {
+          "$ref": "#/$defs/ProviderUsage"
+        }
+      },
+      "required": [
+        "request_sha256",
+        "request_ref",
+        "response_ref",
+        "model_requested",
+        "model_returned",
+        "usage",
+        "cost_usd"
+      ],
+      "title": "ResultProviderRef",
+      "type": "object"
+    },
+    "ScoreSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "answer_correct": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Answer Correct"
+        },
+        "clarification_decision_correct": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Clarification Decision Correct"
+        },
+        "cost_usd": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Cost Usd"
+        },
+        "execution_success": {
+          "title": "Execution Success",
+          "type": "boolean"
+        },
+        "false_refusal": {
+          "title": "False Refusal",
+          "type": "boolean"
+        },
+        "input_tokens": {
+          "minimum": 0,
+          "title": "Input Tokens",
+          "type": "integer"
+        },
+        "latency_ms": {
+          "minimum": 0,
+          "title": "Latency Ms",
+          "type": "integer"
+        },
+        "output_tokens": {
+          "minimum": 0,
+          "title": "Output Tokens",
+          "type": "integer"
+        },
+        "policy_correct": {
+          "title": "Policy Correct",
+          "type": "boolean"
+        },
+        "provider_latency_ms": {
+          "minimum": 0,
+          "title": "Provider Latency Ms",
+          "type": "integer"
+        },
+        "semantic_component_f1": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Semantic Component F1"
+        },
+        "semantic_component_precision": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Semantic Component Precision"
+        },
+        "semantic_component_recall": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Semantic Component Recall"
+        },
+        "semantic_exact": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Semantic Exact"
+        },
+        "sequence_state_correct": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Sequence State Correct"
+        },
+        "unsafe_or_invalid": {
+          "title": "Unsafe Or Invalid",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "answer_correct",
+        "unsafe_or_invalid",
+        "semantic_exact",
+        "execution_success",
+        "clarification_decision_correct",
+        "sequence_state_correct",
+        "policy_correct",
+        "false_refusal",
+        "cost_usd",
+        "latency_ms",
+        "provider_latency_ms",
+        "input_tokens",
+        "output_tokens"
+      ],
+      "title": "ScoreSummary",
+      "type": "object"
+    }
+  },
+  "$id": "https://semplan-benchmark.local/schemas/result_record.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "analysis_role": {
+      "$ref": "#/$defs/AnalysisRole",
+      "default": "primary"
+    },
+    "approach": {
+      "$ref": "#/$defs/Approach"
+    },
+    "case_id": {
+      "minLength": 1,
+      "title": "Case Id",
+      "type": "string"
+    },
+    "errors": {
+      "items": {
+        "$ref": "#/$defs/ResultError"
+      },
+      "title": "Errors",
+      "type": "array"
+    },
+    "execution": {
+      "$ref": "#/$defs/ResultExecutionRef"
+    },
+    "input": {
+      "$ref": "#/$defs/ResultInputRef"
+    },
+    "outcome": {
+      "$ref": "#/$defs/ResultOutcome"
+    },
+    "prediction": {
+      "$ref": "#/$defs/ResultPredictionRef"
+    },
+    "provider": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ResultProviderRef"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "repetition": {
+      "minimum": 1,
+      "title": "Repetition",
+      "type": "integer"
+    },
+    "run_id": {
+      "minLength": 1,
+      "title": "Run Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "score_ref": {
+      "$ref": "#/$defs/ArtifactRef"
+    },
+    "scores": {
+      "$ref": "#/$defs/ScoreSummary"
+    },
+    "timestamps": {
+      "additionalProperties": {
+        "format": "date-time",
+        "type": "string"
+      },
+      "minProperties": 1,
+      "title": "Timestamps",
+      "type": "object"
+    },
+    "work_item_id": {
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "title": "Work Item Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "run_id",
+    "work_item_id",
+    "case_id",
+    "approach",
+    "repetition",
+    "input",
+    "provider",
+    "prediction",
+    "execution",
+    "scores",
+    "score_ref",
+    "timestamps",
+    "outcome"
+  ],
+  "title": "ResultRecord",
+  "type": "object"
+}

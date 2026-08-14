@@ -1,0 +1,1 @@
+SELECT SUM(analytics_order_facts.contribution_margin) AS contribution_margin FROM analytics_order_facts WHERE analytics_order_facts.year = 2026 AND analytics_order_facts.month = 3 AND analytics_order_facts.region = 'North' AND analytics_order_facts.channel = 'online' AND analytics_order_facts.customer_segment = 'small_business' LIMIT 1000

@@ -1,0 +1,16 @@
+{
+  "checked_at_utc": "2026-01-01T00:00:00Z",
+  "currency": "USD",
+  "model_prices": {
+    "gpt-5.6-luna": {
+      "batch_input_per_million_usd": null,
+      "batch_output_per_million_usd": null,
+      "cached_input_per_million_usd": "0.000000",
+      "input_per_million_usd": "0.000000",
+      "output_per_million_usd": "0.000000"
+    }
+  },
+  "provider": "openai",
+  "schema_version": "1.0",
+  "source": "Non-authoritative stale example for schema shape only; refresh from official OpenAI pricing before paid use."
+}

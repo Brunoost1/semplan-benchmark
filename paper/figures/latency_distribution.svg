@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="320" viewBox="0 0 760 320" role="img" aria-label="Mean latency by approach (ms)">
+<title>Mean latency by approach (ms)</title>
+<rect width="100%" height="100%" fill="white"/>
+<text x="24" y="28" font-size="16" font-family="Arial">Mean latency by approach (ms)</text>
+<rect x="56" y="84" width="100" height="180" fill="#4d4d4d"/>
+<text x="106.0" y="290" text-anchor="middle">A1</text>
+<text x="106.0" y="76" text-anchor="middle">2817.031667</text>
+<rect x="204" y="189" width="100" height="75" fill="#4d4d4d"/>
+<text x="254.0" y="290" text-anchor="middle">A2</text>
+<text x="254.0" y="181" text-anchor="middle">1186.992500</text>
+<rect x="352" y="203" width="100" height="61" fill="#4d4d4d"/>
+<text x="402.0" y="290" text-anchor="middle">A3</text>
+<text x="402.0" y="195" text-anchor="middle">967.173333</text>
+<rect x="500" y="213" width="100" height="51" fill="#4d4d4d"/>
+<text x="550.0" y="290" text-anchor="middle">A4</text>
+<text x="550.0" y="205" text-anchor="middle">802.680833</text>
+</svg>

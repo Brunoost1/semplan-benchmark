@@ -1,0 +1,871 @@
+{
+  "$defs": {
+    "AggregateToolArguments": {
+      "additionalProperties": false,
+      "properties": {
+        "dimensions": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "type": "string"
+          },
+          "title": "Dimensions",
+          "type": "array"
+        },
+        "filters": {
+          "items": {
+            "$ref": "#/$defs/FilterSpec"
+          },
+          "title": "Filters",
+          "type": "array"
+        },
+        "limit": {
+          "anyOf": [
+            {
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Limit"
+        },
+        "metrics": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Metrics",
+          "type": "array"
+        },
+        "sort": {
+          "items": {
+            "$ref": "#/$defs/SortSpec"
+          },
+          "title": "Sort",
+          "type": "array"
+        },
+        "time_grain": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TimeGrain"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "metrics"
+      ],
+      "title": "AggregateToolArguments",
+      "type": "object"
+    },
+    "AggregateToolCall": {
+      "additionalProperties": false,
+      "properties": {
+        "arguments": {
+          "$ref": "#/$defs/AggregateToolArguments"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "tool_name": {
+          "const": "aggregate",
+          "title": "Tool Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "tool_name",
+        "arguments"
+      ],
+      "title": "AggregateToolCall",
+      "type": "object"
+    },
+    "ClarificationReasonCode": {
+      "enum": [
+        "AMBIGUOUS_METRIC",
+        "AMBIGUOUS_DIMENSION",
+        "AMBIGUOUS_ENTITY",
+        "AMBIGUOUS_TIME_RANGE",
+        "AMBIGUOUS_COMPARISON_BASIS",
+        "AMBIGUOUS_RANKING_DIRECTION",
+        "AMBIGUOUS_SCOPE"
+      ],
+      "title": "ClarificationReasonCode",
+      "type": "string"
+    },
+    "ClarificationSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "options": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Options",
+          "type": "array"
+        },
+        "question": {
+          "minLength": 1,
+          "title": "Question",
+          "type": "string"
+        },
+        "reason_code": {
+          "$ref": "#/$defs/ClarificationReasonCode"
+        }
+      },
+      "required": [
+        "reason_code",
+        "question",
+        "options"
+      ],
+      "title": "ClarificationSpec",
+      "type": "object"
+    },
+    "CompareActualBudgetToolArguments": {
+      "additionalProperties": false,
+      "properties": {
+        "dimensions": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "type": "string"
+          },
+          "title": "Dimensions",
+          "type": "array"
+        },
+        "filters": {
+          "items": {
+            "$ref": "#/$defs/FilterSpec"
+          },
+          "title": "Filters",
+          "type": "array"
+        },
+        "limit": {
+          "anyOf": [
+            {
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Limit"
+        }
+      },
+      "title": "CompareActualBudgetToolArguments",
+      "type": "object"
+    },
+    "CompareActualBudgetToolCall": {
+      "additionalProperties": false,
+      "properties": {
+        "arguments": {
+          "$ref": "#/$defs/CompareActualBudgetToolArguments"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "tool_name": {
+          "const": "compare_actual_budget",
+          "title": "Tool Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "tool_name",
+        "arguments"
+      ],
+      "title": "CompareActualBudgetToolCall",
+      "type": "object"
+    },
+    "ComparePeriodsToolArguments": {
+      "additionalProperties": false,
+      "properties": {
+        "dimensions": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "type": "string"
+          },
+          "title": "Dimensions",
+          "type": "array"
+        },
+        "filters": {
+          "items": {
+            "$ref": "#/$defs/FilterSpec"
+          },
+          "title": "Filters",
+          "type": "array"
+        },
+        "limit": {
+          "anyOf": [
+            {
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Limit"
+        },
+        "metric": {
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "title": "Metric",
+          "type": "string"
+        },
+        "time_grain": {
+          "$ref": "#/$defs/TimeGrain",
+          "default": "month"
+        }
+      },
+      "required": [
+        "metric"
+      ],
+      "title": "ComparePeriodsToolArguments",
+      "type": "object"
+    },
+    "ComparePeriodsToolCall": {
+      "additionalProperties": false,
+      "properties": {
+        "arguments": {
+          "$ref": "#/$defs/ComparePeriodsToolArguments"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "tool_name": {
+          "const": "compare_periods",
+          "title": "Tool Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "tool_name",
+        "arguments"
+      ],
+      "title": "ComparePeriodsToolCall",
+      "type": "object"
+    },
+    "ComparisonSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "baseline": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Baseline"
+        },
+        "mode": {
+          "enum": [
+            "period_over_period",
+            "share_of_total"
+          ],
+          "title": "Mode",
+          "type": "string"
+        }
+      },
+      "required": [
+        "mode"
+      ],
+      "title": "ComparisonSpec",
+      "type": "object"
+    },
+    "ContractStatusToolArguments": {
+      "additionalProperties": false,
+      "properties": {
+        "dimensions": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "type": "string"
+          },
+          "title": "Dimensions",
+          "type": "array"
+        },
+        "filters": {
+          "items": {
+            "$ref": "#/$defs/FilterSpec"
+          },
+          "title": "Filters",
+          "type": "array"
+        },
+        "limit": {
+          "anyOf": [
+            {
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Limit"
+        }
+      },
+      "title": "ContractStatusToolArguments",
+      "type": "object"
+    },
+    "ContractStatusToolCall": {
+      "additionalProperties": false,
+      "properties": {
+        "arguments": {
+          "$ref": "#/$defs/ContractStatusToolArguments"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "tool_name": {
+          "const": "contract_status",
+          "title": "Tool Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "tool_name",
+        "arguments"
+      ],
+      "title": "ContractStatusToolCall",
+      "type": "object"
+    },
+    "DescribeSupportedFieldsToolArguments": {
+      "additionalProperties": false,
+      "properties": {
+        "include_dimensions": {
+          "default": true,
+          "title": "Include Dimensions",
+          "type": "boolean"
+        },
+        "include_metrics": {
+          "default": true,
+          "title": "Include Metrics",
+          "type": "boolean"
+        }
+      },
+      "title": "DescribeSupportedFieldsToolArguments",
+      "type": "object"
+    },
+    "DescribeSupportedFieldsToolCall": {
+      "additionalProperties": false,
+      "properties": {
+        "arguments": {
+          "$ref": "#/$defs/DescribeSupportedFieldsToolArguments"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "tool_name": {
+          "const": "describe_supported_fields",
+          "title": "Tool Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "tool_name",
+        "arguments"
+      ],
+      "title": "DescribeSupportedFieldsToolCall",
+      "type": "object"
+    },
+    "Direction": {
+      "enum": [
+        "asc",
+        "desc"
+      ],
+      "title": "Direction",
+      "type": "string"
+    },
+    "FilterSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "field": {
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "title": "Field",
+          "type": "string"
+        },
+        "operator": {
+          "$ref": "#/$defs/Operator"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                    "type": "string"
+                  },
+                  {
+                    "format": "date",
+                    "type": "string"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        }
+      },
+      "required": [
+        "field",
+        "operator"
+      ],
+      "title": "FilterSpec",
+      "type": "object"
+    },
+    "Intent": {
+      "enum": [
+        "grouped_metric",
+        "detail_lookup",
+        "ranking",
+        "comparison",
+        "clarification",
+        "out_of_scope"
+      ],
+      "title": "Intent",
+      "type": "string"
+    },
+    "Operation": {
+      "enum": [
+        "REPLACE",
+        "PATCH",
+        "CLARIFY",
+        "OUT_OF_SCOPE"
+      ],
+      "title": "Operation",
+      "type": "string"
+    },
+    "Operator": {
+      "enum": [
+        "EQ",
+        "NE",
+        "IN",
+        "NOT_IN",
+        "GT",
+        "GTE",
+        "LT",
+        "LTE",
+        "BETWEEN",
+        "IS_NULL",
+        "IS_NOT_NULL",
+        "CONTAINS_CANONICAL"
+      ],
+      "title": "Operator",
+      "type": "string"
+    },
+    "OutOfScopeReasonCode": {
+      "enum": [
+        "UNSUPPORTED_DOMAIN",
+        "WRITE_OPERATION",
+        "PROHIBITED_DATA_ACCESS",
+        "NON_ANALYTICS_REQUEST",
+        "UNSUPPORTED_COMPUTATION",
+        "PROMPT_EXTRACTION",
+        "MALFORMED_INPUT"
+      ],
+      "title": "OutOfScopeReasonCode",
+      "type": "string"
+    },
+    "RankToolArguments": {
+      "additionalProperties": false,
+      "properties": {
+        "dimensions": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "type": "string"
+          },
+          "title": "Dimensions",
+          "type": "array"
+        },
+        "filters": {
+          "items": {
+            "$ref": "#/$defs/FilterSpec"
+          },
+          "title": "Filters",
+          "type": "array"
+        },
+        "limit": {
+          "anyOf": [
+            {
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Limit"
+        },
+        "metrics": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Metrics",
+          "type": "array"
+        },
+        "sort": {
+          "items": {
+            "$ref": "#/$defs/SortSpec"
+          },
+          "minItems": 1,
+          "title": "Sort",
+          "type": "array"
+        },
+        "time_grain": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TimeGrain"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "metrics",
+        "sort"
+      ],
+      "title": "RankToolArguments",
+      "type": "object"
+    },
+    "RankToolCall": {
+      "additionalProperties": false,
+      "properties": {
+        "arguments": {
+          "$ref": "#/$defs/RankToolArguments"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "tool_name": {
+          "const": "rank",
+          "title": "Tool Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "tool_name",
+        "arguments"
+      ],
+      "title": "RankToolCall",
+      "type": "object"
+    },
+    "SemanticRequestEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "clarifications": {
+          "items": {
+            "$ref": "#/$defs/ClarificationSpec"
+          },
+          "title": "Clarifications",
+          "type": "array"
+        },
+        "comparison": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ComparisonSpec"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "confidence": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            }
+          ],
+          "title": "Confidence"
+        },
+        "dimensions": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "type": "string"
+          },
+          "title": "Dimensions",
+          "type": "array"
+        },
+        "filters": {
+          "items": {
+            "$ref": "#/$defs/FilterSpec"
+          },
+          "title": "Filters",
+          "type": "array"
+        },
+        "intent": {
+          "$ref": "#/$defs/Intent"
+        },
+        "limit": {
+          "anyOf": [
+            {
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Limit"
+        },
+        "metrics": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "type": "string"
+          },
+          "title": "Metrics",
+          "type": "array"
+        },
+        "operation": {
+          "$ref": "#/$defs/Operation"
+        },
+        "out_of_scope_reason": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/OutOfScopeReasonCode"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "sort": {
+          "items": {
+            "$ref": "#/$defs/SortSpec"
+          },
+          "title": "Sort",
+          "type": "array"
+        },
+        "time_grain": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TimeGrain"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "schema_version",
+        "operation",
+        "intent",
+        "metrics",
+        "dimensions",
+        "filters",
+        "sort",
+        "clarifications",
+        "confidence"
+      ],
+      "title": "SemanticRequestEnvelope",
+      "type": "object"
+    },
+    "SortSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "direction": {
+          "$ref": "#/$defs/Direction"
+        },
+        "field": {
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "title": "Field",
+          "type": "string"
+        }
+      },
+      "required": [
+        "field",
+        "direction"
+      ],
+      "title": "SortSpec",
+      "type": "object"
+    },
+    "TimeGrain": {
+      "enum": [
+        "day",
+        "week",
+        "month",
+        "quarter",
+        "year"
+      ],
+      "title": "TimeGrain",
+      "type": "string"
+    }
+  },
+  "$id": "https://semplan-benchmark.local/schemas/tool_agent_turn.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "cannot_answer": {
+      "default": false,
+      "title": "Cannot Answer",
+      "type": "boolean"
+    },
+    "final_request": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SemanticRequestEnvelope"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "reason_code": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/OutOfScopeReasonCode"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "tool_calls": {
+      "items": {
+        "discriminator": {
+          "mapping": {
+            "aggregate": "#/$defs/AggregateToolCall",
+            "compare_actual_budget": "#/$defs/CompareActualBudgetToolCall",
+            "compare_periods": "#/$defs/ComparePeriodsToolCall",
+            "contract_status": "#/$defs/ContractStatusToolCall",
+            "describe_supported_fields": "#/$defs/DescribeSupportedFieldsToolCall",
+            "rank": "#/$defs/RankToolCall"
+          },
+          "propertyName": "tool_name"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/AggregateToolCall"
+          },
+          {
+            "$ref": "#/$defs/RankToolCall"
+          },
+          {
+            "$ref": "#/$defs/ComparePeriodsToolCall"
+          },
+          {
+            "$ref": "#/$defs/CompareActualBudgetToolCall"
+          },
+          {
+            "$ref": "#/$defs/ContractStatusToolCall"
+          },
+          {
+            "$ref": "#/$defs/DescribeSupportedFieldsToolCall"
+          }
+        ]
+      },
+      "title": "Tool Calls",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version"
+  ],
+  "title": "ToolAgentTurnEnvelope",
+  "type": "object"
+}

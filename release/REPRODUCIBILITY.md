@@ -1,6 +1,6 @@
 # Public Reproducibility Notes
 
-This repository contains a curated public manuscript-and-results snapshot for SemPlan Benchmark. It is deliberately narrower than the private development repository.
+This repository contains a curated public reproducibility package for SemPlan Benchmark. It is deliberately narrower than the private development repository and excludes internal specifications, authoring material, provider caches, and raw provider-response payloads.
 
 ## Frozen identifiers
 
@@ -13,8 +13,11 @@ This repository contains a curated public manuscript-and-results snapshot for Se
 
 ## Public scope
 
-The public snapshot contains:
+The public package contains:
 
+- runnable Python source code and tests;
+- JSON schemas, prompts, catalog, configs, and PostgreSQL migration files;
+- deterministic synthetic benchmark fixtures used by the free checks;
 - a pointer to the archived public preprint and its DOI;
 - frozen derived CSV tables supporting the reported results;
 - a convenience ZIP containing the same derived CSV tables;
@@ -26,6 +29,23 @@ The following are deliberately excluded:
 - local credentials and environment files;
 - provider caches and raw provider-response payloads;
 - private working notes and machine-specific artifacts.
+
+## Free reproduction path
+
+```bash
+uv sync --python 3.12 --extra dev --frozen
+make validate-free
+```
+
+`make validate-free` runs formatting/lint checks, type checks, unit/contract/property/golden tests, schema/catalog validation, deterministic small synthetic data regeneration, public smoke benchmark validation, secret scan, and package build. It must not require an API key or dispatch provider calls.
+
+Optional release-scale benchmark validation:
+
+```bash
+uv run --python 3.12 --extra dev python -m semplan.cli.main validate-benchmark data/benchmark/f7_release_scale --allow-hidden --require-approved
+uv run --python 3.12 --extra dev python -m semplan.cli.main validate-release-benchmark data/benchmark/f7_release_scale
+uv run --python 3.12 --extra dev python -m semplan.cli.main validate-language-quality data/benchmark/f7_release_scale
+```
 
 The manuscript and release metadata retain the frozen benchmark and scientific-result hashes so a separately archived software/dataset reproducibility deposit can be cross-checked against the reported experiment without altering the paper's numeric results.
 

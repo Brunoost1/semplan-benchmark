@@ -1,0 +1,434 @@
+{
+  "$defs": {
+    "Aggregation": {
+      "enum": [
+        "SUM",
+        "COUNT_DISTINCT",
+        "RATIO",
+        "DERIVED"
+      ],
+      "title": "Aggregation",
+      "type": "string"
+    },
+    "DimensionSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "title": "Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "DimensionSpec",
+      "type": "object"
+    },
+    "Direction": {
+      "enum": [
+        "asc",
+        "desc"
+      ],
+      "title": "Direction",
+      "type": "string"
+    },
+    "ExecutionOperator": {
+      "enum": [
+        "aggregate",
+        "detail",
+        "rank"
+      ],
+      "title": "ExecutionOperator",
+      "type": "string"
+    },
+    "ExecutionPolicy": {
+      "enum": [
+        "read_only"
+      ],
+      "title": "ExecutionPolicy",
+      "type": "string"
+    },
+    "ExecutionSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "max_rows": {
+          "exclusiveMinimum": 0,
+          "maximum": 10000,
+          "title": "Max Rows",
+          "type": "integer"
+        },
+        "operator": {
+          "$ref": "#/$defs/ExecutionOperator"
+        },
+        "policy": {
+          "$ref": "#/$defs/ExecutionPolicy"
+        }
+      },
+      "required": [
+        "operator",
+        "policy",
+        "max_rows"
+      ],
+      "title": "ExecutionSpec",
+      "type": "object"
+    },
+    "MetricSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "aggregation": {
+          "$ref": "#/$defs/Aggregation"
+        },
+        "id": {
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "title": "Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "aggregation"
+      ],
+      "title": "MetricSpec",
+      "type": "object"
+    },
+    "Operation": {
+      "enum": [
+        "REPLACE",
+        "PATCH",
+        "CLARIFY",
+        "OUT_OF_SCOPE"
+      ],
+      "title": "Operation",
+      "type": "string"
+    },
+    "Operator": {
+      "enum": [
+        "EQ",
+        "NE",
+        "IN",
+        "NOT_IN",
+        "GT",
+        "GTE",
+        "LT",
+        "LTE",
+        "BETWEEN",
+        "IS_NULL",
+        "IS_NOT_NULL",
+        "CONTAINS_CANONICAL"
+      ],
+      "title": "Operator",
+      "type": "string"
+    },
+    "PlanStatus": {
+      "enum": [
+        "READY",
+        "CLARIFY",
+        "OUT_OF_SCOPE",
+        "ERROR"
+      ],
+      "title": "PlanStatus",
+      "type": "string"
+    },
+    "PredicateGroup": {
+      "additionalProperties": false,
+      "properties": {
+        "children": {
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/PredicateLeaf"
+              },
+              {
+                "$ref": "#/$defs/PredicateGroup"
+              }
+            ]
+          },
+          "title": "Children",
+          "type": "array"
+        },
+        "type": {
+          "enum": [
+            "AND",
+            "OR"
+          ],
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "PredicateGroup",
+      "type": "object"
+    },
+    "PredicateLeaf": {
+      "additionalProperties": false,
+      "properties": {
+        "field": {
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "title": "Field",
+          "type": "string"
+        },
+        "operator": {
+          "$ref": "#/$defs/Operator"
+        },
+        "type": {
+          "const": "predicate",
+          "title": "Type",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+              "type": "string"
+            },
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+                    "type": "string"
+                  },
+                  {
+                    "format": "date",
+                    "type": "string"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        }
+      },
+      "required": [
+        "type",
+        "field",
+        "operator"
+      ],
+      "title": "PredicateLeaf",
+      "type": "object"
+    },
+    "ProvenanceSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "catalog_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Catalog Hash",
+          "type": "string"
+        },
+        "defaults": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Defaults",
+          "type": "array"
+        },
+        "normalizer_version": {
+          "minLength": 1,
+          "title": "Normalizer Version",
+          "type": "string"
+        },
+        "request_hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Request Hash",
+          "type": "string"
+        }
+      },
+      "required": [
+        "request_hash",
+        "normalizer_version",
+        "catalog_hash"
+      ],
+      "title": "ProvenanceSpec",
+      "type": "object"
+    },
+    "SortSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "direction": {
+          "$ref": "#/$defs/Direction"
+        },
+        "field": {
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "title": "Field",
+          "type": "string"
+        }
+      },
+      "required": [
+        "field",
+        "direction"
+      ],
+      "title": "SortSpec",
+      "type": "object"
+    },
+    "TimeContext": {
+      "additionalProperties": false,
+      "properties": {
+        "grain": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TimeGrain"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "reference_date": {
+          "format": "date",
+          "title": "Reference Date",
+          "type": "string"
+        },
+        "timezone": {
+          "minLength": 1,
+          "title": "Timezone",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reference_date",
+        "timezone"
+      ],
+      "title": "TimeContext",
+      "type": "object"
+    },
+    "TimeGrain": {
+      "enum": [
+        "day",
+        "week",
+        "month",
+        "quarter",
+        "year"
+      ],
+      "title": "TimeGrain",
+      "type": "string"
+    }
+  },
+  "$id": "https://semplan-benchmark.local/schemas/semantic_plan.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "dimension_specs": {
+      "items": {
+        "$ref": "#/$defs/DimensionSpec"
+      },
+      "title": "Dimension Specs",
+      "type": "array"
+    },
+    "execution": {
+      "$ref": "#/$defs/ExecutionSpec"
+    },
+    "limit": {
+      "anyOf": [
+        {
+          "maximum": 1000,
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Limit"
+    },
+    "metric_specs": {
+      "items": {
+        "$ref": "#/$defs/MetricSpec"
+      },
+      "title": "Metric Specs",
+      "type": "array"
+    },
+    "operation": {
+      "$ref": "#/$defs/Operation"
+    },
+    "plan_id": {
+      "minLength": 1,
+      "title": "Plan Id",
+      "type": "string"
+    },
+    "predicate_tree": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PredicateGroup"
+        },
+        {
+          "$ref": "#/$defs/PredicateLeaf"
+        }
+      ],
+      "title": "Predicate Tree"
+    },
+    "provenance": {
+      "$ref": "#/$defs/ProvenanceSpec"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "sort_specs": {
+      "items": {
+        "$ref": "#/$defs/SortSpec"
+      },
+      "title": "Sort Specs",
+      "type": "array"
+    },
+    "status": {
+      "$ref": "#/$defs/PlanStatus",
+      "default": "READY"
+    },
+    "time_context": {
+      "$ref": "#/$defs/TimeContext"
+    }
+  },
+  "required": [
+    "schema_version",
+    "plan_id",
+    "operation",
+    "predicate_tree",
+    "time_context",
+    "execution",
+    "provenance"
+  ],
+  "title": "SemanticPlanEnvelope",
+  "type": "object"
+}

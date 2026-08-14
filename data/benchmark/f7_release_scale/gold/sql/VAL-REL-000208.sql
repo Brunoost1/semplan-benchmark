@@ -1,0 +1,1 @@
+SELECT SUM(analytics_order_facts.net_revenue) AS net_revenue FROM analytics_order_facts WHERE analytics_order_facts.year = 2026 AND analytics_order_facts.month = 5 AND analytics_order_facts.region = 'South' AND analytics_order_facts.channel = 'online' AND analytics_order_facts.customer_segment = 'mid_market' AND analytics_order_facts.category = 'category_01' LIMIT 1000

@@ -1,0 +1,1 @@
+SELECT expense_category, SUM(expense_amount) AS expense_amount, SUM(budget_amount) AS budget_amount, SUM(budget_variance) AS budget_variance FROM analytics_budget_facts WHERE year = 2026 GROUP BY expense_category ORDER BY budget_variance DESC, expense_category ASC LIMIT 5

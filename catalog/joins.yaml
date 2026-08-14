@@ -1,0 +1,29 @@
+schema_version: "1.0"
+joins:
+  - id: orders_to_customers
+    left: {table: orders, column: customer_id}
+    right: {table: customers, column: customer_id}
+  - id: order_items_to_orders
+    left: {table: order_items, column: order_id}
+    right: {table: orders, column: order_id}
+  - id: order_items_to_products
+    left: {table: order_items, column: product_id}
+    right: {table: products, column: product_id}
+  - id: payments_to_orders
+    left: {table: payments, column: order_id}
+    right: {table: orders, column: order_id}
+  - id: expenses_to_departments
+    left: {table: expenses, column: department_id}
+    right: {table: departments, column: department_id}
+  - id: expenses_to_cost_centers
+    left: {table: expenses, column: cost_center_id}
+    right: {table: cost_centers, column: cost_center_id}
+  - id: budgets_to_cost_centers
+    left: {table: budgets, column: cost_center_id}
+    right: {table: cost_centers, column: cost_center_id}
+  - id: cost_centers_to_departments
+    left: {table: cost_centers, column: department_id}
+    right: {table: departments, column: department_id}
+  - id: contracts_to_suppliers
+    left: {table: contracts, column: supplier_id}
+    right: {table: suppliers, column: supplier_id}

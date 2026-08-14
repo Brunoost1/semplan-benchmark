@@ -1,0 +1,1 @@
+SELECT cost_center, AVG(budget_variance_pct) AS budget_variance_pct FROM analytics_budget_facts WHERE year = 2026 AND quarter = 4 GROUP BY cost_center ORDER BY budget_variance_pct DESC, cost_center ASC LIMIT 5

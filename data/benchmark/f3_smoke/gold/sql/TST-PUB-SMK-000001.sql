@@ -1,0 +1,1 @@
+SELECT contract_risk, SUM(active_contract_value) AS active_contract_value FROM analytics_contract_facts WHERE status = 'active' GROUP BY contract_risk ORDER BY active_contract_value DESC, contract_risk ASC

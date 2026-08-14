@@ -1,0 +1,1 @@
+SELECT SUM(analytics_order_facts.gross_revenue) AS gross_revenue FROM analytics_order_facts WHERE analytics_order_facts.year = 2023 AND analytics_order_facts.month = 1 AND analytics_order_facts.region = 'North' AND analytics_order_facts.channel = 'online' AND analytics_order_facts.customer_segment = 'consumer' LIMIT 1000

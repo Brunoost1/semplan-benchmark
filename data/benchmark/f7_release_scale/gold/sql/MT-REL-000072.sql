@@ -1,0 +1,1 @@
+SELECT analytics_order_facts.month, SUM(analytics_order_facts.contribution_margin) AS contribution_margin FROM analytics_order_facts WHERE analytics_order_facts.year = 2022 AND analytics_order_facts.quarter = 3 GROUP BY analytics_order_facts.month ORDER BY analytics_order_facts.month ASC LIMIT 12

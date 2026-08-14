@@ -1,0 +1,11 @@
+schema_version: "1.0"
+prompt_id: direct_sql_a1_v1
+version: "1.0.0"
+approach: A1
+locale_strategy: bilingual_case_locale
+expected_output_schema: direct_sql.schema.json
+author: Bruno Santos Teixeira
+reviewer: Bruno Santos Teixeira
+changelog:
+  - Initial F5 direct-SQL baseline prompt.
+template_file: prompt.md

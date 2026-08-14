@@ -1,0 +1,84 @@
+{
+  "$defs": {
+    "Approach": {
+      "enum": [
+        "A1",
+        "A2",
+        "A3",
+        "A4"
+      ],
+      "title": "Approach",
+      "type": "string"
+    }
+  },
+  "$id": "https://semplan-benchmark.local/schemas/prompt_metadata.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "approach": {
+      "$ref": "#/$defs/Approach"
+    },
+    "author": {
+      "minLength": 1,
+      "title": "Author",
+      "type": "string"
+    },
+    "changelog": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Changelog",
+      "type": "array"
+    },
+    "expected_output_schema": {
+      "minLength": 1,
+      "title": "Expected Output Schema",
+      "type": "string"
+    },
+    "locale_strategy": {
+      "minLength": 1,
+      "title": "Locale Strategy",
+      "type": "string"
+    },
+    "prompt_id": {
+      "minLength": 1,
+      "title": "Prompt Id",
+      "type": "string"
+    },
+    "reviewer": {
+      "minLength": 1,
+      "title": "Reviewer",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "template_file": {
+      "pattern": "^[A-Za-z0-9_./-]+$",
+      "title": "Template File",
+      "type": "string"
+    },
+    "version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "prompt_id",
+    "version",
+    "approach",
+    "locale_strategy",
+    "expected_output_schema",
+    "author",
+    "reviewer",
+    "changelog",
+    "template_file"
+  ],
+  "title": "PromptMetadata",
+  "type": "object"
+}
